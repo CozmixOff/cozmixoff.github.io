@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>Cozmix - Log In</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
@@ -24,46 +24,46 @@
 
     <script>
         async function getToken() {
-          const clientId = 'VOTRE_ID_CLIENT_TWITCH';
-          const clientSecret = 'VOTRE_SECRET_CLIENT_TWITCH';
-          const scope = 'VOS_AUTORISATIONS';
-      
-          const tokenEndpoint = 'https://id.twitch.tv/oauth2/token';
-      
-          try {
-            const response = await axios.post(tokenEndpoint, null, {
-              params: {
-                client_id: clientId,
-                client_secret: clientSecret,
-                grant_type: 'client_credentials',
-                scope: scope,
-              },
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-              },
-            });
-      
-            const accessToken = response.data.access_token;
-            console.log('Token d\'accès Twitch :', accessToken);
-      
-            // Utilisez le token d'accès pour appeler l'API Twitch
-            // Par exemple :
-            // axios.get('https://api.twitch.tv/helix/...', {
-            //   headers: {
-            //     'Authorization': `Bearer ${accessToken}`,
-            //   }
-            // })
-            // .then(response => {
-            //   // Traiter la réponse de l'API Twitch
-            // })
-            // .catch(error => {
-            //   console.error(error);
-            // });
-          } catch (error) {
-            console.error('Erreur lors de la récupération du token :', error);
-          }
+            const clientId = 'VOTRE_ID_CLIENT_TWITCH';
+            const clientSecret = 'VOTRE_SECRET_CLIENT_TWITCH';
+            const scope = 'VOS_AUTORISATIONS';
+
+            const tokenEndpoint = 'https://id.twitch.tv/oauth2/token';
+
+            try {
+                const response = await axios.post(tokenEndpoint, null, {
+                    params: {
+                        client_id: clientId,
+                        client_secret: clientSecret,
+                        grant_type: 'client_credentials',
+                        scope: scope,
+                    },
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                });
+
+                const accessToken = response.data.access_token;
+                console.log('Token d\'accès Twitch :', accessToken);
+
+                // Utilisez le token d'accès pour appeler l'API Twitch
+                // Par exemple :
+                // axios.get('https://api.twitch.tv/helix/...', {
+                //   headers: {
+                //     'Authorization': `Bearer ${accessToken}`,
+                //   }
+                // })
+                // .then(response => {
+                //   // Traiter la réponse de l'API Twitch
+                // })
+                // .catch(error => {
+                //   console.error(error);
+                // });
+            } catch (error) {
+                console.error('Erreur lors de la récupération du token :', error);
+            }
         }
-      </script>
+    </script>
 </body>
 
 </html>
