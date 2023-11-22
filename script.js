@@ -6,7 +6,7 @@ const TWITCH_CHANNEL = "cozmix_off";
 const CLIENT_ID = "5wg5kc0sri459uyvu1lupkzdxih8av";
 
 // The URL on which the user will be redirected after the authentication
-const REDIRECT_URI = "http://localhost:5500/";
+const REDIRECT_URI = "https://cozmixoff.github.io/";
 
 // The required scopes (none for now, we will see that in future examples)
 const SCOPES = [
