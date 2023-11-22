@@ -109,6 +109,22 @@ const twitch = {
 
     // [Promise] Get the user ID from its nickname
     // "trucmuche" -> 12345678
+    getUserMe: function(username) {
+        const params = helpers.getUrlParams();
+        return request.getJson("https://api.twitch.tv/helix/users", {
+        }, {
+            "client-id": CLIENT_ID,
+            "Authorization": `Bearer ${params["access_token"]}`,
+        }).then(function(data) {
+            if (data.data.length != 1) {
+                throw new Error("The API returned unexpected data");
+            }
+            return data.data[0];
+        });
+    },
+
+    // [Promise] Get the user ID from its nickname
+    // "trucmuche" -> 12345678
     getUserId: function(username) {
         const params = helpers.getUrlParams();
         return request.getJson("https://api.twitch.tv/helix/users", {
@@ -120,112 +136,19 @@ const twitch = {
             if (data.data.length != 1) {
                 throw new Error("The API returned unexpected data");
             }
-            return data.data[0].id;
+            return data.data[0];
         });
     },
-
-    // [Promise] Get the last followers for a given user ID.
-    getLastFollowers(userId) {
-        const params = helpers.getUrlParams();
-        return request.getJson("https://api.twitch.tv/helix/users/follows", {
-            to_id: userId,
-        }, {
-            "client-id": CLIENT_ID,
-            "Authorization": `Bearer ${params["access_token"]}`,
-        }).then(function(data) {
-            return data.data;
-        });
-    },
-
-    // [Promise] Get new followers since last call for a given user ID.
-    getNewFollowers: function(userId) {
-        return twitch.getLastFollowers(userId)
-            .then(function(followers) {
-                // No followers yet
-                if (followers.length == 0) {
-                    twitch._lastFollowersIds = [];
-                    return [];
-                }
-
-                // First call
-                if (twitch._lastFollowersIds === null) {
-                    twitch._lastFollowersIds = [];
-                    for (const i in followers) {
-                        twitch._lastFollowersIds.push(followers[i].from_id);
-                    }
-                    return [];
-                }
-
-                const result = [];
-
-                for (const i in followers) {
-                    if (twitch._lastFollowersIds.includes(followers[i].from_id)) {
-                        break;
-                    }
-
-                    result.push(followers[i]);
-                    twitch._lastFollowersIds.push(followers[i].from_id);
-                }
-
-                return result;
-            });
-    },
-
 };
-
-const alerts = {
-
-    // Alerts will be queued using this promise to only display one alert at time
-    _queue: Promise.resolve(),
-
-    // Queue a new follower alert
-    newFollower(name) {
-        const divAlertFollower = document.getElementById("alert-follower");
-        const spanAlertFollowerName = document.getElementById("alert-follower-name");
-        const audioAlertSound = document.getElementById("alert-sound");
-
-        function _show() {
-            spanAlertFollowerName.innerText = name;
-            divAlertFollower.classList.add("visible");
-            audioAlertSound.play();
-        }
-
-        function _hide() {
-            divAlertFollower.classList.remove("visible");
-        }
-
-        alerts._queue = alerts._queue
-            .then(_show)
-            .then(helpers.wait.bind(null, 10))
-            .then(_hide)
-            .then(helpers.wait.bind(null, 1));
-    },
-
-};
-
-// Query the Twitch API every 15s to get and display new followers
-function newFollowerPolling(userId) {
-
-    function _displayNewFollowers(newFollowers) {
-        for (let i in newFollowers) {
-            alerts.newFollower(newFollowers[i].from_name);
-        }
-    }
-
-    // Get new followers
-    twitch.getNewFollowers(userId)
-        .then(_displayNewFollowers);
-
-    // Call this function again in 15s
-    setTimeout(newFollowerPolling.bind(null, userId), 15 * 1000);
-}
 
 function main() {
     if (!twitch.isAuthenticated()) {
         twitch.authentication();
     } else {
-        twitch.getUserId(TWITCH_CHANNEL)
-            .then(newFollowerPolling);
+        me = twitch.getUserMe(TWITCH_CHANNEL);
+        console.log(me)
+        channel = twitch.getUserId(TWITCH_CHANNEL);
+        console.log(channel)
     }
 }
 
