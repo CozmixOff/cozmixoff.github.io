@@ -14,7 +14,7 @@ const REDIRECT_URI = "https://cozmixoff.github.io/index.html";
 const SCOPES = [
     "user:read:email",
     "user:read:follows",
-    "user:read:broadcast",
+    "user:read:subscriptions",
 ];
 
 const helpers = {
