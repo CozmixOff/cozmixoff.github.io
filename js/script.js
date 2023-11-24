@@ -141,6 +141,20 @@ const twitch = {
             return data.data[0];
         });
     },
+
+    // [Promise] Get the user streams
+    // "trucmuche" -> 12345678
+    getStreams: function (user_id) {
+        const params = helpers.getUrlParams();
+        return request.getJson("https://api.twitch.tv/helix/streams", {
+            user_id: user_id,
+        }, {
+            "client-id": CLIENT_ID,
+            "Authorization": `Bearer ${params["access_token"]}`,
+        }).then(function (data) {
+            return data;
+        });
+    },
 };
 
 function main() {
@@ -148,12 +162,20 @@ function main() {
         twitch.authentication();
     } else {
         twitch.getUserMe(TWITCH_CHANNEL).then(function (data) {
+            console.log(data)
             document.querySelector("#me_display_name").textContent = data.display_name;
             document.querySelector("#me_profile_image_url").src = data.profile_image_url;
+            twitch.getStreams(data.id).then(function (streams) {
+                console.log(streams)
+            });
         });
         twitch.getUserId(TWITCH_CHANNEL).then(function (data) {
+            console.log(data)
             document.querySelector("#channel_display_name").textContent = data.display_name;
             document.querySelector("#channel_profile_image_url").src = data.profile_image_url;
+            twitch.getStreams(data.id).then(function (streams) {
+                console.log(streams)
+            });
         });
     }
 }
