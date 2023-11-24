@@ -172,6 +172,7 @@ function main() {
             console.log(data)
             document.querySelector("#me_display_name").textContent = data.display_name;
             document.querySelector("#me_profile_image_url").src = data.profile_image_url;
+            document.querySelector("#me_link").href = ("https://twitch.tv/" + data.login)
             twitch.getStreams(data.id).then(function (streams) {
                 console.log(streams)
             });
@@ -186,6 +187,7 @@ function main() {
             console.log(data)
             document.querySelector("#channel_display_name").textContent = data.display_name;
             document.querySelector("#channel_profile_image_url").src = data.profile_image_url;
+            document.querySelector("#channel_link").href = ("https://twitch.tv/" + data.login)
             twitch.getStreams(data.id).then(function (streams) {
                 console.log(streams)
             });

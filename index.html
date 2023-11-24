@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Test application</title>
+    <title>Cozmix - Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link type="text/css" rel="stylesheet" href="./css/style.css" />
 </head>
@@ -14,7 +14,9 @@
     <div class="columns">
         <div class="column is-3">
             <figure class="image is-96x96">
-                <img class="is-rounded" id="me_profile_image_url">
+                <a id="me_link">
+                    <img class="is-rounded" id="me_profile_image_url">
+                </a>
             </figure>
             <h1 id="me_display_name"></h1>
         </div>
@@ -22,7 +24,9 @@
         </div>
         <div class="column is-3">
             <figure class="image is-96x96">
-                <img class="is-rounded" id="channel_profile_image_url">
+                <a id="channel_link">
+                    <img class="is-rounded" id="channel_profile_image_url">
+                </a>
             </figure>
             <h1 id="channel_display_name"></h1>
         </div>
