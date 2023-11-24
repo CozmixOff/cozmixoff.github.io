@@ -3,8 +3,8 @@ const TWITCH_CHANNEL = "cozmix_off";
 const CLIENT_ID = "5wg5kc0sri459uyvu1lupkzdxih8av";
 // const CLIENT_ID = "kbhuxxksdr5py4z2xfnts4qdkw0xt0";
 
-const REDIRECT_URI = "https://cozmixoff.github.io/index.html";
-// const REDIRECT_URI = "https://localhost:5500/index.html";
+//const REDIRECT_URI = "https://cozmixoff.github.io/index.html";
+const REDIRECT_URI = "https://localhost:5500/index.html";
 
 const SCOPES = [
     "user:read:email",
@@ -159,18 +159,18 @@ function main() {
             document.querySelector("#me_display_name").textContent = data.display_name;
             document.querySelector("#me_profile_image_url").src = data.profile_image_url;
             document.querySelector("#me_link").href = ("https://twitch.tv/" + data.login);
-            let BROADCASTER_TYPE = "Compte : Viewer";
+            let BROADCASTER_TYPE = "Utilisateur";
             if (data.broadcaster_type == 'affiliate') {
-                BROADCASTER_TYPE = "Compte : Affilié";
+                BROADCASTER_TYPE = "Affilié";
             } else if (data.broadcaster_type == 'partner') {
-                BROADCASTER_TYPE = "Compte : Partenaire";
+                BROADCASTER_TYPE = "Partenaire";
             }
             document.querySelector("#me_broadcaster_type").textContent = BROADCASTER_TYPE;
             if (data.description !== undefined && data.description != "" ) {
-                document.querySelector("#me_description").textContent = ("Description de chaine : " + data.description);
+                document.querySelector("#me_description").textContent = data.description;
             }
-            document.querySelector("#me_mail").textContent = ("Mail : " + data.email);
-            document.querySelector("#me_creation_date").textContent = ("Date de création : " + data.created_at);
+            document.querySelector("#me_mail").textContent = (data.email);
+            document.querySelector("#me_creation_date").textContent = data.created_at;
         });
     };
     twitch.getUserId(TWITCH_CHANNEL).then(function (data) {
