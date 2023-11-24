@@ -169,7 +169,7 @@ function main() {
         twitch.authentication();
     } else {
         twitch.getUserMe(TWITCH_CHANNEL).then(function (data) {
-            console.log(data)
+            console.log("getUserMe", data)
             document.querySelector("#me_display_name").textContent = data.display_name;
             document.querySelector("#me_profile_image_url").src = data.profile_image_url;
             document.querySelector("#me_link").href = ("https://twitch.tv/" + data.login);
