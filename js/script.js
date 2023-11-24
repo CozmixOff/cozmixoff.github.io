@@ -13,6 +13,7 @@ const REDIRECT_URI = "https://cozmixoff.github.io/index.html";
 // The required scopes (none for now, we will see that in future examples)
 const SCOPES = [
     "user:read:email",
+    "user:read:follows"
 ];
 
 const helpers = {
@@ -155,6 +156,34 @@ const twitch = {
             return data;
         });
     },
+
+    // [Promise] Get the user followed channels
+    // "trucmuche" -> 12345678
+    getFollowedChannels: function (user_id) {
+        const params = helpers.getUrlParams();
+        return request.getJson("https://api.twitch.tv/helix/channels/followed", {
+            user_id: user_id,
+        }, {
+            "client-id": CLIENT_ID,
+            "Authorization": `Bearer ${params["access_token"]}`,
+        }).then(function (data) {
+            return data;
+        });
+    },
+
+    // [Promise] Get the user stream markers
+    // "trucmuche" -> 12345678
+    getStreamMarkers: function (user_id) {
+        const params = helpers.getUrlParams();
+        return request.getJson("https://api.twitch.tv/helix/streams/markers", {
+            user_id: user_id,
+        }, {
+            "client-id": CLIENT_ID,
+            "Authorization": `Bearer ${params["access_token"]}`,
+        }).then(function (data) {
+            return data;
+        });
+    },
 };
 
 function main() {
@@ -168,6 +197,12 @@ function main() {
             twitch.getStreams(data.id).then(function (streams) {
                 console.log(streams)
             });
+            twitch.getFollowedChannels(data.id).then(function (followed) {
+                console.log(followed)
+            });getStreamMarkers
+            twitch.getStreamMarkers(data.id).then(function (markers) {
+                console.log(markers)
+            });
         });
         twitch.getUserId(TWITCH_CHANNEL).then(function (data) {
             console.log(data)
@@ -175,6 +210,12 @@ function main() {
             document.querySelector("#channel_profile_image_url").src = data.profile_image_url;
             twitch.getStreams(data.id).then(function (streams) {
                 console.log(streams)
+            });
+            twitch.getFollowedChannels(data.id).then(function (followed) {
+                console.log(followed)
+            });
+            twitch.getStreamMarkers(data.id).then(function (markers) {
+                console.log(markers)
             });
         });
     }
