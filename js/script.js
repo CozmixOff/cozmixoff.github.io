@@ -148,20 +148,6 @@ const twitch = {
             return data;
         });
     },
-
-    // [Promise] Get the user stream markers
-    // "trucmuche" -> 12345678
-    getStreamMarkers: function (user_id) {
-        const params = helpers.getUrlParams();
-        return request.getJson("https://api.twitch.tv/helix/streams/markers", {
-            user_id: user_id,
-        }, {
-            "client-id": CLIENT_ID,
-            "Authorization": `Bearer ${params["access_token"]}`,
-        }).then(function (data) {
-            return data;
-        });
-    },
 };
 
 function main() {
