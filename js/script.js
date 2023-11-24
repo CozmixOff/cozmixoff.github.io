@@ -1,24 +1,16 @@
-// The user name / channel name
 const TWITCH_CHANNEL = "cozmix_off";
 
-// The ID of the application (provided when registering the app on
-// dev.twitch.tv)
 const CLIENT_ID = "5wg5kc0sri459uyvu1lupkzdxih8av";
 // const CLIENT_ID = "kbhuxxksdr5py4z2xfnts4qdkw0xt0";
 
-// The URL on which the user will be redirected after the authentication
 const REDIRECT_URI = "https://cozmixoff.github.io/index.html";
 // const REDIRECT_URI = "https://localhost:5500/index.html";
 
-// The required scopes (none for now, we will see that in future examples)
 const SCOPES = [
     "user:read:email",
 ];
 
 const helpers = {
-
-    // Encode an object to a querystring
-    // {name: "Truc Muche", "foo": "bar"}  ->  "name=Truc+Muche&foo=bar"
     encodeQueryString: function (params) {
         const queryString = new URLSearchParams();
         for (let paramName in params) {
@@ -27,8 +19,6 @@ const helpers = {
         return queryString.toString();
     },
 
-    // Decode a querystring to an object
-    // "name=Truc+Muche&foo=bar"  ->  {name: "Truc Muche", "foo": "bar"}
     decodeQueryString: function (string) {
         const params = {};
         const queryString = new URLSearchParams(string);
@@ -38,20 +28,10 @@ const helpers = {
         return params;
     },
 
-    // Get perameters from URL's anchor
-    //
-    // For example, if the URL of the curent page is
-    //
-    //     http://localhost:8000/#name=Truc+Muche&foo=bar
-    //
-    // Then, this function will return
-    //
-    //     {name: "Truc Muche", "foo": "bar"}
     getUrlParams: function () {
         return helpers.decodeQueryString(location.hash.slice(1));
     },
 
-    // [Promise] Wait the given amount of seconds before resolving the promise.
     wait: function (seconds) {
         return new Promise(function (resolve, reject) {
             setTimeout(resolve, seconds * 1000);
@@ -62,7 +42,6 @@ const helpers = {
 
 const request = {
 
-    // [Promise] Download (GET) a JSON from the given URL
     getJson: function (url, params = null, headers = {}) {
         requestUrl = url;
 
