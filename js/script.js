@@ -166,9 +166,11 @@ function main() {
                 BROADCASTER_TYPE = "Compte : Partenaire";
             }
             document.querySelector("#me_broadcaster_type").textContent = BROADCASTER_TYPE;
-            document.querySelector("#me_description").textContent = ("Description de chaine : " + data.description);
+            if (data.description !== undefined && data.description != "" ) {
+                document.querySelector("#me_description").textContent = ("Description de chaine : " + data.description);
+            }
             document.querySelector("#me_mail").textContent = ("Mail : " + data.email);
-            document.querySelector("#me_creation_date").textContent = ("Mail : " + data.created_at);
+            document.querySelector("#me_creation_date").textContent = ("Date de création : " + data.created_at);
         });
     };
     twitch.getUserId(TWITCH_CHANNEL).then(function (data) {
