@@ -7,7 +7,7 @@ const CLIENT_ID = "5wg5kc0sri459uyvu1lupkzdxih8av";
 // const CLIENT_ID = "kbhuxxksdr5py4z2xfnts4qdkw0xt0";
 
 // The URL on which the user will be redirected after the authentication
-const REDIRECT_URI = "https://cozmixoff.github.io/index.html";
+const REDIRECT_URI = "https://cozmixoff.github.io/";
 // const REDIRECT_URI = "https://localhost:5500/index.html";
 
 // The required scopes (none for now, we will see that in future examples)
