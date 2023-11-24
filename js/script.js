@@ -15,6 +15,7 @@ const SCOPES = [
     "user:read:email",
     "user:read:follows",
     "user:read:subscriptions",
+    "moderator:read:followers",
 ];
 
 const helpers = {
