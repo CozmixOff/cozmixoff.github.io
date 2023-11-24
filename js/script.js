@@ -169,33 +169,33 @@ function main() {
         twitch.authentication();
     } else {
         twitch.getUserMe(TWITCH_CHANNEL).then(function (data) {
-            console.log(data)
+            console.log("getUserMe: " + data)
             document.querySelector("#me_display_name").textContent = data.display_name;
             document.querySelector("#me_profile_image_url").src = data.profile_image_url;
             document.querySelector("#me_link").href = ("https://twitch.tv/" + data.login)
             twitch.getStreams(data.id).then(function (streams) {
-                console.log(streams)
+                console.log("me-getStreams: " + streams)
             });
             twitch.getFollowedChannels(data.id).then(function (followed) {
-                console.log(followed)
+                console.log("me-getFollowedChannels: " + followed)
             });
             twitch.getStreamMarkers(data.id).then(function (markers) {
-                console.log(markers)
+                console.log("me-getStreamMarkers: " + markers)
             });
         });
         twitch.getUserId(TWITCH_CHANNEL).then(function (data) {
-            console.log(data)
+            console.log("getUserId: " + data)
             document.querySelector("#channel_display_name").textContent = data.display_name;
             document.querySelector("#channel_profile_image_url").src = data.profile_image_url;
             document.querySelector("#channel_link").href = ("https://twitch.tv/" + data.login)
             twitch.getStreams(data.id).then(function (streams) {
-                console.log(streams)
+                console.log("channel-getStreams: " + streams)
             });
             twitch.getFollowedChannels(data.id).then(function (followed) {
-                console.log(followed)
+                console.log("channel-getFollowedChannels: " + followed)
             });
             twitch.getStreamMarkers(data.id).then(function (markers) {
-                console.log(markers)
+                console.log("channel-getStreamMarkers: " + markers)
             });
         });
     }
