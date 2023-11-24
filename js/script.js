@@ -200,7 +200,7 @@ function main() {
             });
             twitch.getFollowedChannels(data.id).then(function (followed) {
                 console.log(followed)
-            });getStreamMarkers
+            });
             twitch.getStreamMarkers(data.id).then(function (markers) {
                 console.log(markers)
             });
