@@ -159,12 +159,11 @@ function main() {
             document.querySelector("#me_display_name").textContent = data.display_name;
             document.querySelector("#me_profile_image_url").src = data.profile_image_url;
             document.querySelector("#me_link").href = ("https://twitch.tv/" + data.login);
+            let BROADCASTER_TYPE = "Compte : Viewer";
             if (data.broadcaster_type == 'affiliate') {
-                const BROADCASTER_TYPE = "Compte : Affilié"
+                BROADCASTER_TYPE = "Compte : Affilié";
             } else if (data.broadcaster_type == 'partner') {
-                const BROADCASTER_TYPE = "Compte : Partenaire"
-            } else {
-                const BROADCASTER_TYPE = "Compte : Viewer"
+                BROADCASTER_TYPE = "Compte : Partenaire";
             }
             document.querySelector("#me_broadcaster_type").textContent = BROADCASTER_TYPE;
             document.querySelector("#me_description").textContent = ("Description de chaine : " + data.description);
