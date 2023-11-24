@@ -172,33 +172,27 @@ function main() {
             console.log(data)
             document.querySelector("#me_display_name").textContent = data.display_name;
             document.querySelector("#me_profile_image_url").src = data.profile_image_url;
-            document.querySelector("#me_link").href = ("https://twitch.tv/" + data.login)
-            twitch.getStreams(data.id).then(function (streams) {
-                console.log(streams)
-            });
-            twitch.getFollowedChannels(data.id).then(function (followed) {
-                console.log(followed)
-            });
-            twitch.getStreamMarkers(data.id).then(function (markers) {
-                console.log(markers)
-            });
+            document.querySelector("#me_link").href = ("https://twitch.tv/" + data.login);
+            if (data.broadcaster_type == 'affiliate') {
+                const BROADCASTER_TYPE = "Compte : Affilié"
+            } else if (data.broadcaster_type == 'partner') {
+                const BROADCASTER_TYPE = "Compte : Partenaire"
+            } else {
+                const BROADCASTER_TYPE = "Compte : Viewer"
+            }
+            document.querySelector("#me_broadcaster_type").textContent = BROADCASTER_TYPE;
+            document.querySelector("#me_description").textContent = ("Description de chaine : " + data.description);
+            document.querySelector("#me_mail").textContent = ("Mail : " + data.email);
+            document.querySelector("#me_creation_date").textContent = ("Mail : " + data.created_at);
         });
-        twitch.getUserId(TWITCH_CHANNEL).then(function (data) {
-            console.log(data)
-            document.querySelector("#channel_display_name").textContent = data.display_name;
-            document.querySelector("#channel_profile_image_url").src = data.profile_image_url;
-            document.querySelector("#channel_link").href = ("https://twitch.tv/" + data.login)
-            twitch.getStreams(data.id).then(function (streams) {
-                console.log(streams)
-            });
-            twitch.getFollowedChannels(data.id).then(function (followed) {
-                console.log(followed)
-            });
-            twitch.getStreamMarkers(data.id).then(function (markers) {
-                console.log(markers)
-            });
-        });
-    }
+    };
+    twitch.getUserId(TWITCH_CHANNEL).then(function (data) {
+        console.log(data)
+        document.querySelector("#channel_display_name").textContent = data.display_name;
+        document.querySelector("#channel_profile_image_url").src = data.profile_image_url;
+        document.querySelector("#channel_link").href = ("https://twitch.tv/" + data.login);
+    });
 }
+
 
 window.onload = main;
