@@ -3,10 +3,12 @@ const TWITCH_CHANNEL = "cozmix_off";
 
 // The ID of the application (provided when registering the app on
 // dev.twitch.tv)
-const CLIENT_ID = "5wg5kc0sri459uyvu1lupkzdxih8av";
+// const CLIENT_ID = "5wg5kc0sri459uyvu1lupkzdxih8av";
+const CLIENT_ID = "kbhuxxksdr5py4z2xfnts4qdkw0xt0";
 
 // The URL on which the user will be redirected after the authentication
-const REDIRECT_URI = "https://cozmixoff.github.io/index.html";
+// const REDIRECT_URI = "https://cozmixoff.github.io/index.html";
+const REDIRECT_URI = "https://localhost:5500/index.html";
 
 // The required scopes (none for now, we will see that in future examples)
 const SCOPES = [
@@ -17,7 +19,7 @@ const helpers = {
 
     // Encode an object to a querystring
     // {name: "Truc Muche", "foo": "bar"}  ->  "name=Truc+Muche&foo=bar"
-    encodeQueryString: function(params) {
+    encodeQueryString: function (params) {
         const queryString = new URLSearchParams();
         for (let paramName in params) {
             queryString.append(paramName, params[paramName]);
@@ -27,7 +29,7 @@ const helpers = {
 
     // Decode a querystring to an object
     // "name=Truc+Muche&foo=bar"  ->  {name: "Truc Muche", "foo": "bar"}
-    decodeQueryString: function(string) {
+    decodeQueryString: function (string) {
         const params = {};
         const queryString = new URLSearchParams(string);
         for (let [paramName, value] of queryString) {
@@ -45,13 +47,13 @@ const helpers = {
     // Then, this function will return
     //
     //     {name: "Truc Muche", "foo": "bar"}
-    getUrlParams: function() {
+    getUrlParams: function () {
         return helpers.decodeQueryString(location.hash.slice(1));
     },
 
     // [Promise] Wait the given amount of seconds before resolving the promise.
-    wait: function(seconds) {
-        return new Promise(function(resolve, reject) {
+    wait: function (seconds) {
+        return new Promise(function (resolve, reject) {
             setTimeout(resolve, seconds * 1000);
         });
     },
@@ -61,7 +63,7 @@ const helpers = {
 const request = {
 
     // [Promise] Download (GET) a JSON from the given URL
-    getJson: function(url, params=null, headers={}) {
+    getJson: function (url, params = null, headers = {}) {
         requestUrl = url;
 
         if (params) {
@@ -74,7 +76,7 @@ const request = {
         });
 
         return fetch(req)
-            .then(function(response) {
+            .then(function (response) {
                 if (!response.ok) {
                     throw new Error(`HTTP Error: ${response.status}`);
                 }
@@ -90,13 +92,13 @@ const twitch = {
     _lastFollowersIds: null,
 
     // Check if the user is already authenticated
-    isAuthenticated: function() {
+    isAuthenticated: function () {
         const params = helpers.getUrlParams();
         return params["access_token"] !== undefined;
     },
 
     // Retirect the user to the Twitch auth page with all required params
-    authentication: function() {
+    authentication: function () {
         const params = {
             client_id: CLIENT_ID,
             redirect_uri: REDIRECT_URI,
@@ -109,13 +111,13 @@ const twitch = {
 
     // [Promise] Get the user ID from its nickname
     // "trucmuche" -> 12345678
-    getUserMe: function(username) {
+    getUserMe: function (username) {
         const params = helpers.getUrlParams();
         return request.getJson("https://api.twitch.tv/helix/users", {
         }, {
             "client-id": CLIENT_ID,
             "Authorization": `Bearer ${params["access_token"]}`,
-        }).then(function(data) {
+        }).then(function (data) {
             if (data.data.length != 1) {
                 throw new Error("The API returned unexpected data");
             }
@@ -125,14 +127,14 @@ const twitch = {
 
     // [Promise] Get the user ID from its nickname
     // "trucmuche" -> 12345678
-    getUserId: function(username) {
+    getUserId: function (username) {
         const params = helpers.getUrlParams();
         return request.getJson("https://api.twitch.tv/helix/users", {
             login: username,
         }, {
             "client-id": CLIENT_ID,
             "Authorization": `Bearer ${params["access_token"]}`,
-        }).then(function(data) {
+        }).then(function (data) {
             if (data.data.length != 1) {
                 throw new Error("The API returned unexpected data");
             }
@@ -145,10 +147,14 @@ function main() {
     if (!twitch.isAuthenticated()) {
         twitch.authentication();
     } else {
-        me = twitch.getUserMe(TWITCH_CHANNEL);
-        console.log(me)
-        channel = twitch.getUserId(TWITCH_CHANNEL);
-        console.log(channel)
+        twitch.getUserMe(TWITCH_CHANNEL).then(function (data) {
+            document.querySelector("#me_display_name").textContent = data.display_name;
+            document.querySelector("#me_profile_image_url").src = data.profile_image_url;
+        });
+        twitch.getUserId(TWITCH_CHANNEL).then(function (data) {
+            document.querySelector("#channel_display_name").textContent = data.display_name;
+            document.querySelector("#channel_profile_image_url").src = data.profile_image_url;
+        });
     }
 }
 
