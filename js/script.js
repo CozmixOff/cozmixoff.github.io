@@ -3,8 +3,8 @@ const TWITCH_CHANNEL = "cozmix_off";
 const CLIENT_ID = "5wg5kc0sri459uyvu1lupkzdxih8av";
 // const CLIENT_ID = "kbhuxxksdr5py4z2xfnts4qdkw0xt0";
 
-//const REDIRECT_URI = "https://cozmixoff.github.io/index.html";
-const REDIRECT_URI = "https://localhost:5500/index.html";
+const REDIRECT_URI = "https://cozmixoff.github.io/index.html";
+//const REDIRECT_URI = "https://localhost:5500/index.html";
 
 const SCOPES = [
     "user:read:email",
